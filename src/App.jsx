@@ -8,14 +8,21 @@ const App = () => {
   const [items, setItems] = useState(data);
 
   const categories = items.map((item) => item.category);
-  const uniqueCategories = new Set(categories);
-  uniqueCategories.add("all");
+  const temporarySet = new Set(categories);
+  const uniqueCategories = ["all", ...temporarySet];
   const [currentCategories, setCategories] = useState(
     Array.from(uniqueCategories)
   );
 
   const changeCategory = (newValue) => {
-    console.log(newValue);
+    setItems(() => {
+      if (newValue === "all") {
+        return data;
+      } else {
+        const newArray = data.filter((item) => item.category === newValue);
+        return newArray;
+      }
+    });
   };
 
   return (
